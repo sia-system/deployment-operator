@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+// go get -u google.golang.org/grpc
+// go get -u github.com/golang/protobuf/protoc-gen-go
+// go get github.com/golang/protobuf/protoc-gen-go@v1.3
+// generate for GO: C:\Protoc\bin\protoc -I api api/deployment-service.proto --go_out=plugins=grpc:api
+
+package api;
+
+service Deployment {
+    rpc Deploy(Request) returns (Response) {}
+}
+
+enum ServerMode {
+    Development = 0;
+    Production  = 1;
+}
+
+message Request {
+    string path     = 1;
+    ServerMode mode = 2;
+    bool recreate   = 3;
+}
+
+enum Action {
+    Created    = 0;
+    Removed    = 1;
+    Updated    = 2;
+    Recreated  = 3;
+    NotChanged = 4;
+} 
+
+message ReleaseInfo {
+    string image_tag    = 1;
+    string release_date = 2;
+}
+
+message ServiceID {
+    string group   = 1;
+    string package = 2;
+    string kind    = 3;    
+}
+
+message ServiceInfo {
+    string path         = 1;
+    string provider     = 2;
+    ServiceID serviceId = 3;
+    ReleaseInfo release = 4;
+    oneof action_variants {
+        Action action            = 5;
+        string error_description = 6;
+    }
+}
+
+message ServicesResponse {
+    repeated ServiceInfo services = 1;
+}
+
+message Response {
+    oneof response_variants {
+        ServicesResponse services_response = 1;
+        string error_description           = 2;
+    }
+}
