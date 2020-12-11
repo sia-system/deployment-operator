@@ -29,11 +29,13 @@ const (
 
 // FindCronjob find allready existed cronjob with namespace ns
 func (s *deploymentServer) findCronjob(ctx context.Context, ns, name, tier string) (*apibatch.CronJob, error) {
-	log.Println("find cronjob " + ns + " : " + name + "." + tier)
+	// log.Println("find cronjob " + ns + " : " + name + "." + tier)
+	log.Println("find cronjob " + ns + " : " + name)
 	batchAPI := s.clientset.BatchV1beta1()
 	apiJobs := batchAPI.CronJobs(ns)
 
-	cronjob, err := apiJobs.Get(ctx, name+"."+tier, metav1.GetOptions{})
+	// cronjob, err := apiJobs.Get(ctx, name+"."+tier, metav1.GetOptions{})
+	cronjob, err := apiJobs.Get(ctx, name, metav1.GetOptions{})
 	if err != nil {
 		switch t := err.(type) {
 		case *errors.StatusError:
@@ -117,11 +119,13 @@ func (s *deploymentServer) removeCronjob(ctx context.Context, job *apibatch.Cron
 
 // FindDeployment find allready existed deployment with namespace ns
 func (s *deploymentServer) findDeployment(ctx context.Context, ns, name, tier string) (*appsv1.Deployment, error) {
-	log.Println("find deployment " + ns + " : " + name + "." + tier)
+	// log.Println("find deployment " + ns + " : " + name + "." + tier)
+	log.Println("find deployment " + ns + " : " + name)
 	appsAPI := s.clientset.AppsV1()
 	apiDeployments := appsAPI.Deployments(ns)
 
-	deployment, err := apiDeployments.Get(ctx, name+"."+tier, metav1.GetOptions{})
+	// deployment, err := apiDeployments.Get(ctx, name+"."+tier, metav1.GetOptions{})
+	deployment, err := apiDeployments.Get(ctx, name, metav1.GetOptions{})
 	if err != nil {
 		switch t := err.(type) {
 		case *errors.StatusError:
