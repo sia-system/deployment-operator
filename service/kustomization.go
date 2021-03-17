@@ -31,8 +31,9 @@ type Repository struct {
 // Service details for proxy-manager
 // See proxy-manager project, annotation aria.io/proxy-config
 type Service struct {
-	Timeout  string `yaml:"timeout"`
-	Template string `yaml:"template"`
+	Timeout            string `yaml:"timeout"`
+	ServiceTemplate    string `yaml:"service-template"`
+	DeploymentTemplate string `yaml:"dxeployment-template"`
 }
 
 // EnvVar contains info for injecting environment variables into container

@@ -237,7 +237,7 @@ func (s *deploymentServer) handleCronjob(ctx context.Context, kustomization *Kus
 }
 
 func (s *deploymentServer) handleDeployment(ctx context.Context, kustomization *Kustomization, recreate, disabled bool, initVariables []EnvVar) (api.Action, error) {
-	tmpl := s.templates[DeploymentKind][kustomization.Tier]
+	tmpl := s.templates[DeploymentKind][kustomization.Service.DeploymentTemplate]
 	bh := createBaseHandler(ctx, s, tmpl, kustomization, initVariables)
 	handler := createDeploymentHandler(bh)
 	return handleArtifact(handler, recreate, disabled)
@@ -291,11 +291,11 @@ func handleArtifact(handler artifactHandler, recreate, disabled bool) (api.Actio
 }
 
 func (s *deploymentServer) handleService(ctx context.Context, kustomization *Kustomization, recreate bool) error {
-	template := s.templates[ServiceKind][kustomization.Service.Template]
+	template := s.templates[ServiceKind][kustomization.Service.ServiceTemplate]
 
 	if template == nil {
-		fmt.Printf("kustomize service %s.%s - %s not found template %s\n", kustomization.Ns, kustomization.Name, kustomization.Tier, kustomization.Service.Template)
-		return fmt.Errorf("kustomize service %s.%s - %s not found template %s", kustomization.Ns, kustomization.Name, kustomization.Tier, kustomization.Service.Template)
+		fmt.Printf("kustomize service %s.%s - %s not found template %s\n", kustomization.Ns, kustomization.Name, kustomization.Tier, kustomization.Service.ServiceTemplate)
+		return fmt.Errorf("kustomize service %s.%s - %s not found template %s", kustomization.Ns, kustomization.Name, kustomization.Tier, kustomization.Service.ServiceTemplate)
 	}
 
 	manifest, err := KustomizeService(kustomization, template)
