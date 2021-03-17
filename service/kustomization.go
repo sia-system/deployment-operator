@@ -33,7 +33,7 @@ type Repository struct {
 type Service struct {
 	Timeout            string `yaml:"timeout"`
 	ServiceTemplate    string `yaml:"service-template"`
-	DeploymentTemplate string `yaml:"dxeployment-template"`
+	DeploymentTemplate string `yaml:"deployment-template"`
 }
 
 // EnvVar contains info for injecting environment variables into container
