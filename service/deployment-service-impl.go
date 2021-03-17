@@ -237,6 +237,7 @@ func (s *deploymentServer) handleCronjob(ctx context.Context, kustomization *Kus
 }
 
 func (s *deploymentServer) handleDeployment(ctx context.Context, kustomization *Kustomization, recreate, disabled bool, initVariables []EnvVar) (api.Action, error) {
+	log.Printf("find template in : %d %s\n", DeploymentKind, kustomization.Service.DeploymentTemplate)
 	tmpl := s.templates[DeploymentKind][kustomization.Service.DeploymentTemplate]
 	bh := createBaseHandler(ctx, s, tmpl, kustomization, initVariables)
 	handler := createDeploymentHandler(bh)

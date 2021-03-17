@@ -76,7 +76,7 @@ func LoadTemplates(source string) (Templates, error) {
 			artifactKind = ServiceKind
 		default:
 			{
-				return fmt.Errorf("Unknown template type: %s", artifactName)
+				return fmt.Errorf("unknown template type: %s", artifactName)
 			}
 		}
 
@@ -95,7 +95,7 @@ func LoadTemplates(source string) (Templates, error) {
 			templates[artifactKind] = tbt
 		}
 		tbt[artifactTier] = parsedTmpl
-		log.Printf("template %s loaded as %s\n", filename, artifactName)
+		log.Printf("template %s loaded as %s for tier: %s\n", filename, artifactName, artifactTier)
 
 		cnt ++
 
