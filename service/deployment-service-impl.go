@@ -65,6 +65,7 @@ func NewServer(deployTemplates, kustomizations string, providers map[string]Prov
 				continue
 			}
 
+			// TODO: may be logic error
 			gitclients[provider] = gitcli
 		}
 
@@ -113,7 +114,7 @@ func (s *deploymentServer) walkApplications(ctx context.Context, prefixLen int, 
 		idx++
 
 		if idx >= MaxServicesCount {
-			return fmt.Errorf("Maximum number of services in one deployment call exceeded: %v", MaxServicesCount)
+			return fmt.Errorf("maximum number of services in one deployment call exceeded: %v", MaxServicesCount)
 		}
 
 		return err

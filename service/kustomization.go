@@ -26,6 +26,7 @@ type Repository struct {
 	Provider string `yaml:"provider"`
 	Group    string `yaml:"group"`
 	Project  string `yaml:"project"`
+	Path     string `yaml:"path"`
 }
 
 // Service details for proxy-manager
@@ -63,7 +64,7 @@ type ObjectKeyRef struct {
 func ParseKustomization(content []byte) (*Kustomization, error) {
 	c := Kustomization{}
 	if err := yaml.Unmarshal(content, &c); err != nil {
-		return nil, fmt.Errorf("Can not unmarshar ProxyConfig: %v", err)
+		return nil, fmt.Errorf("can not unmarshar ProxyConfig: %v", err)
 	}
 	return &c, nil
 }
@@ -75,6 +76,7 @@ type cronJobData struct {
 	Group    string
 	Project  string
 	Schedule string
+	Path     string
 }
 
 // KustomizeCronJob generate cronjob manifest for k8s
@@ -88,6 +90,7 @@ func KustomizeCronJob(kustomization *Kustomization, tmpl *template.Template) ([]
 		Schedule: kustomization.Schedule,
 		Group:    repo.Group,
 		Project:  repo.Project,
+		Path:     repo.Path,
 	}
 
 	manifestBuffer := new(bytes.Buffer)
@@ -104,6 +107,7 @@ type deploymentData struct {
 	Name    string
 	Group   string
 	Project string
+	Path    string
 }
 
 // example of github image:
@@ -123,6 +127,7 @@ func KustomizeDeployment(kustomization *Kustomization, tmpl *template.Template) 
 		Name:    kustomization.Name,
 		Group:   repo.Group,
 		Project: repo.Project,
+		Path:    repo.Path,
 	}
 
 	manifestBuffer := new(bytes.Buffer)
